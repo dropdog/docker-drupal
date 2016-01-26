@@ -134,7 +134,7 @@ VOLUME ["/var/www/html", "/data"]
 WORKDIR /var
 # Automate starting of mysql+apache, allow bash for debugging
 RUN chmod 755 /start.sh /etc/apache2/foreground.sh
-EXPOSE 80
+EXPOSE 80 3000
 CMD ["/bin/bash", "/start.sh"]
 
 LABEL Description="Docker for Drupal Websites. Ubuntu 14.04 mysql+apache+drupal/composer/drush..." Version="1.2"

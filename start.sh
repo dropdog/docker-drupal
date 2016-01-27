@@ -17,7 +17,7 @@ www=${DRUPAL_DOCROOT}
 
 #!/bin/sh
 
-export ORIGPASSWD=$(cat /etc/passwd | grep dockerdev)
+export ORIGPASSWD=$(cat /etc/passwd | grep www-data)
 export ORIG_UID=$(echo $ORIGPASSWD | cut -f3 -d:)
 export ORIG_GID=$(echo $ORIGPASSWD | cut -f4 -d:)
 

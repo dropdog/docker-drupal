@@ -3,7 +3,7 @@
 FROM             ubuntu:14.04
 MAINTAINER       Sean Boran <sean_at_boran.com>
 
-ENV REFRESHED_AT=2016-01-27 \
+ENV REFRESHED_AT=2015-11-24 \
     #PROXY=http://proxy.example.ch:80 \
     DEBIAN_FRONTEND=noninteractive
 
@@ -25,19 +25,13 @@ RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
     COMPOSER_HOME=/opt/composer composer --quiet global require drush/drush:dev-master && \
     ln -s /opt/composer/vendor/drush/drush/drush /bin/drush
-# Add drush command https://www.drupal.org/project/registry_rebuild
+# Add drush comand https://www.drupal.org/project/registry_rebuild
 RUN wget http://ftp.drupal.org/files/projects/registry_rebuild-7.x-2.2.tar.gz && \
     tar xzf registry_rebuild-7.x-2.2.tar.gz && \
     rm registry_rebuild-7.x-2.2.tar.gz && \
     mv registry_rebuild /opt/composer/vendor/drush/drush/commands
 #RUN sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' /root/.bashrc
 RUN /bin/drush --version
-
-# Install latest version of Drupal Console
-RUN curl https://drupalconsole.com/installer -L -o drupal.phar && \
-    mv drupal.phar /usr/local/bin/drupal && \
-    chmod +x /usr/local/bin/drupal
-RUN drupal init 
 
 # Option: Make mysql listen on the outside, might be useful for backups
 # but adds a security risk.
@@ -134,7 +128,7 @@ ADD ./gitwrap.sh /gitwrap.sh
 ADD ./start.sh /start.sh
 
 
-VOLUME ["/var/www/html/profiles", "/var/www/html/themes", "/data"]
+VOLUME ["/var/www/html", "/data"]
 # Using /var/www/html as WORKDIR causes docker exec to fail in certain cases
 #WORKDIR /var/www/html
 WORKDIR /var

@@ -209,5 +209,4 @@ docker logs -f drupal8003
 
 # Thanks 
 The very first iteration was based on a pattern from https://github.com/ricardoamaro/docker-drupal.git
-
-Sean Boran  https://github.com/Boran/docker-drupal
+This Version forked by Sean Boran https://github.com/Boran/docker-drupal

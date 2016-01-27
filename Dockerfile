@@ -25,19 +25,13 @@ RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
     COMPOSER_HOME=/opt/composer composer --quiet global require drush/drush:dev-master && \
     ln -s /opt/composer/vendor/drush/drush/drush /bin/drush
-# Add drush command https://www.drupal.org/project/registry_rebuild
+# Add drush comand https://www.drupal.org/project/registry_rebuild
 RUN wget http://ftp.drupal.org/files/projects/registry_rebuild-7.x-2.2.tar.gz && \
     tar xzf registry_rebuild-7.x-2.2.tar.gz && \
     rm registry_rebuild-7.x-2.2.tar.gz && \
     mv registry_rebuild /opt/composer/vendor/drush/drush/commands
 #RUN sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' /root/.bashrc
 RUN /bin/drush --version
-
-# Install latest version of Drupal Console
-RUN curl https://drupalconsole.com/installer -L -o drupal.phar && \
-    mv drupal.phar /usr/local/bin/drupal && \
-    chmod +x /usr/local/bin/drupal
-RUN drupal init 
 
 # Option: Make mysql listen on the outside, might be useful for backups
 # but adds a security risk.
@@ -67,10 +61,11 @@ ENV \
   #DRUPAL_VERSION=drupal-7
    
   # C) Install via Drush make
-  #DRUPAL_MAKE_DIR=drupal-make1
+  #DRUPAL_MAKE_DIR=dropdog
+  #DRUPAL_MAKE_FILENAME=build-dropdog.make
   #DRUPAL_MAKE_REPO=https://github.com/Boran/drupal-make1
-  DRUPAL_MAKE_BRANCH=master \
-  #Which will run:  drush make ${DRUPAL_MAKE_DIR}/${DRUPAL_MAKE_DIR}.make ${DRUPAL_DOCROOT}
+  #DRUPAL_MAKE_BRANCH=master \
+  #Which will run: drush make ${DRUPAL_MAKE_DIR}/${DRUPAL_MAKE_FILENAME} ${DRUPAL_DOCROOT}
   #During build testing one can just copy in makes to save time:
   #ADD ./drupal-make1  /opt/drush-make/drupal-make1
 
@@ -87,7 +82,7 @@ ENV \
   DRUPAL_INSTALL_PROFILE_BRANCH=master \
   # Example custom profile: pull it from git
   #DRUPAL_INSTALL_PROFILE=boran1
-  #DRUPAL_INSTALL_REPO=https://github.com/Boran/drupal-profile1.git
+  #DRUPAL_INSTALL_REPO=https://hostdog:tiger3341@github.com/dropdog/dropdog.git
   # During build test: copy in directly
   #ADD ./drupal-profile1      /var/www/html/profiles/boran1
 
@@ -134,7 +129,7 @@ ADD ./gitwrap.sh /gitwrap.sh
 ADD ./start.sh /start.sh
 
 
-VOLUME ["/var/www/html/profiles", "/var/www/html/themes", "/data"]
+VOLUME ["/var/www/html", "/data"]
 # Using /var/www/html as WORKDIR causes docker exec to fail in certain cases
 #WORKDIR /var/www/html
 WORKDIR /var

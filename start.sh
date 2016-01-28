@@ -23,6 +23,9 @@ ln -s $buildstat /var/log/start.sh.log 2>/dev/null
 
 echo "00. -- /start.sh run date=`date '+%Y%m%d-%H%M'` base image=boran/drupal Image date=$REFRESHED_AT, https://github.com/Boran/webfact, build status in $buildstat -----"
 #env
+echo "Host *" >> /etc/ssh/ssh_config
+echo "   StrictHostKeyChecking no" >> /etc/ssh/ssh_config
+echo "   UserKnownHostsFile=/dev/null" >> /etc/ssh/ssh_config
 
 
 echo "01. setup apache"
